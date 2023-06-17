@@ -28,14 +28,14 @@ TEST(TrieDebugger, TestCase) {
     clt.emplace_back(key, value);
   }
 
-  for (auto& [k, v] : clt) {
+  for (auto &[k, v] : clt) {
     std::cout << ">>> " << k << ":" << v << std::endl;
     auto ptr = trie.Get<uint32_t>(k);
-  if (ptr == nullptr) {
-    std::cout << "nullptr" << std::endl;
-  } else {
-    std::cout << *ptr << std::endl;
-  }
+    if (ptr == nullptr) {
+      std::cout << "nullptr" << std::endl;
+    } else {
+      std::cout << *ptr << std::endl;
+    }
   }
 
   // Put a breakpoint here.

@@ -10,7 +10,9 @@ class BasicPageGuard {
  public:
   BasicPageGuard() = default;
 
-  BasicPageGuard(BufferPoolManager *bpm, Page *page) : bpm_(bpm), page_(page) {}
+  BasicPageGuard(BufferPoolManager *bpm, Page *page) : bpm_(bpm), page_(page) {
+    // printf("[BasicPageGuard] constructor, page_id: %d\n", page->GetPageId());
+  }
 
   BasicPageGuard(const BasicPageGuard &) = delete;
   auto operator=(const BasicPageGuard &) -> BasicPageGuard & = delete;
@@ -38,6 +40,8 @@ class BasicPageGuard {
    */
   void Drop();
 
+  void CLear();
+
   /** TODO(P1): Add implementation
    *
    * @brief Move assignment for BasicPageGuard
@@ -59,7 +63,7 @@ class BasicPageGuard {
    */
   ~BasicPageGuard();
 
-  auto PageId() -> page_id_t { return page_->GetPageId(); }
+  auto PageId() -> page_id_t { return page_->GetPageId(); }  // NOLINT
 
   auto GetData() -> const char * { return page_->GetData(); }
 
@@ -90,7 +94,9 @@ class BasicPageGuard {
 class ReadPageGuard {
  public:
   ReadPageGuard() = default;
-  ReadPageGuard(BufferPoolManager *bpm, Page *page) : guard_(bpm, page) {}
+  ReadPageGuard(BufferPoolManager *bpm, Page *page) : guard_(bpm, page) {
+    // printf("[ReadPageGuard] constructor, page_id: %d\n", page->GetPageId());
+  }
   ReadPageGuard(const ReadPageGuard &) = delete;
   auto operator=(const ReadPageGuard &) -> ReadPageGuard & = delete;
 
@@ -150,7 +156,10 @@ class ReadPageGuard {
 class WritePageGuard {
  public:
   WritePageGuard() = default;
-  WritePageGuard(BufferPoolManager *bpm, Page *page) : guard_(bpm, page) {}
+  WritePageGuard(BufferPoolManager *bpm, Page *page) : guard_(bpm, page) {
+    // printf("[WritePageGuard] constructor, page_id: %d\n", page->GetPageId());
+    guard_.is_dirty_ = true;
+  }
   WritePageGuard(const WritePageGuard &) = delete;
   auto operator=(const WritePageGuard &) -> WritePageGuard & = delete;
 
